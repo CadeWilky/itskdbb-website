@@ -1,11 +1,21 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Skill(update-config)",
-      "Skill(update-config:*)"
+      "Skill(update-config:*)",
+      "mcp__DropboxDashMCP__dash_get_sources",
+      "mcp__DropboxDashMCP__dash_whoami",
+      "mcp__claude_ai_Dropbox_MCP__list_folder",
+      "mcp__claude_ai_Dropbox_MCP__get_file_content",
+      "mcp__claude_ai_Dropbox_MCP__get_file_metadata",
+      "mcp__claude_ai_Dropbox_MCP__get_usage_and_quota",
+      "mcp__claude_ai_Dropbox_MCP__search",
+      "Bash",
+      "Write",
+      "Edit"
     ]
-  },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
