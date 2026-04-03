@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 
 const IMAGES = [
   { src: '/images/DSC01599.jpg', alt: 'ItsKDBB - Editorial' },   // orange briefs, loft bed
@@ -135,7 +136,7 @@ export default function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formState, handleSubmit] = useForm('xbdpanjq');
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [loadedImgs, setLoadedImgs] = useState<Set<number>>(new Set());
   const handleImgLoad = useCallback((i: number) => {
@@ -161,13 +162,6 @@ export default function App() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
-    window.location.href = `mailto:yokdbb@gmail.com?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -290,42 +284,32 @@ export default function App() {
                 ))}
               </div>
             </div>
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-field">
-                <label htmlFor="contact-name">Name</label>
-                <input
-                  id="contact-name"
-                  type="text"
-                  placeholder="Your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                />
+            {formState.succeeded ? (
+              <div className="contact-form contact-success">
+                <p>Thanks for reaching out! I'll get back to you soon.</p>
               </div>
-              <div className="form-field">
-                <label htmlFor="contact-email">Email</label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-field">
-                <label htmlFor="contact-message">Message</label>
-                <textarea
-                  id="contact-message"
-                  rows={5}
-                  placeholder="Tell me about your project..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-primary btn-full">Send Message</button>
-            </form>
+            ) : (
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <div className="form-field">
+                  <label htmlFor="contact-name">Name</label>
+                  <input id="contact-name" type="text" name="name" placeholder="Your name" required />
+                  <ValidationError field="name" prefix="Name" errors={formState.errors} />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="contact-email">Email</label>
+                  <input id="contact-email" type="email" name="email" placeholder="your@email.com" required />
+                  <ValidationError field="email" prefix="Email" errors={formState.errors} />
+                </div>
+                <div className="form-field">
+                  <label htmlFor="contact-message">Message</label>
+                  <textarea id="contact-message" name="message" rows={5} placeholder="Tell me about your project..." required />
+                  <ValidationError field="message" prefix="Message" errors={formState.errors} />
+                </div>
+                <button type="submit" className="btn btn-primary btn-full" disabled={formState.submitting}>
+                  {formState.submitting ? 'Sending…' : 'Send Message'}
+                </button>
+              </form>
+            )}
           </div>
         </section>
       </main>
