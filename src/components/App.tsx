@@ -69,6 +69,37 @@ const SOCIAL = [
   },
 ];
 
+const ALL_LINKS = [
+  ...SOCIAL,
+  {
+    name: 'Throne Wishlist',
+    url: 'https://throne.com/itskdbb',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Venmo',
+    url: 'https://venmo.com/u/itskdbb',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.5 2c.8 1.4 1.2 2.8 1.2 4.6 0 4.8-4.1 11.1-7.5 15.4H5.9L3 3.5l6.3-.6 1.6 12.7c1.5-2.5 3.3-6.4 3.3-9.1 0-1.5-.3-2.5-.7-3.5H19.5z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Cash App',
+    url: 'https://cash.app/$itsKDbb',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16.5 3h-9A4.5 4.5 0 0 0 3 7.5v9A4.5 4.5 0 0 0 7.5 21h9a4.5 4.5 0 0 0 4.5-4.5v-9A4.5 4.5 0 0 0 16.5 3zm-2.3 11.6c-.4 1.4-1.6 2-2.9 2.1v.8h-1.1v-.8c-1-.1-2.1-.5-2.8-1.1l.9-1.4c.7.6 1.5.9 2.2.9.7 0 1.2-.3 1.2-.8 0-1.2-3.8-.8-3.8-3.3 0-1.3 1-2.1 2.3-2.3V7.5h1.1v.8c.9.1 1.7.5 2.3 1l-.9 1.3c-.5-.4-1.1-.7-1.8-.7-.6 0-1 .2-1 .7 0 1.1 3.8.8 3.8 3.2.1.3.1.5.5.8z" />
+      </svg>
+    ),
+  },
+];
+
 /* ── Links landing page ─────────────────────────────────────── */
 function LinksPage() {
   return (
@@ -176,6 +207,7 @@ export default function App() {
           <nav className={`nav-links${menuOpen ? ' open' : ''}`} aria-label="Site navigation">
             <a href="#hero" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }}>Home</a>
             <a href="#gallery" onClick={(e) => { e.preventDefault(); scrollTo('gallery'); }}>Gallery</a>
+            <a href="#links" onClick={(e) => { e.preventDefault(); scrollTo('links'); }}>Links</a>
             <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }}>Contact</a>
           </nav>
 
@@ -261,6 +293,21 @@ export default function App() {
                     </svg>
                   </div>
                 </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Links */}
+        <section id="links" className="links-section-portfolio">
+          <div className="section-inner">
+            <h2 className="section-title">Links</h2>
+            <div className="portfolio-links-grid">
+              {ALL_LINKS.map((link) => (
+                <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="portfolio-link-btn">
+                  <span className="portfolio-link-icon">{link.icon}</span>
+                  <span>{link.name}</span>
+                </a>
               ))}
             </div>
           </div>
